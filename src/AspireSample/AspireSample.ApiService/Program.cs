@@ -1,3 +1,7 @@
+using AspireSample.ApiService.Infrastructure;
+using AspireSample.ApiService.Options;
+using Microsoft.Extensions.Configuration;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add service defaults & Aspire client integrations.
@@ -8,6 +12,15 @@ builder.Services.AddProblemDetails();
 
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
+
+//Add PrometheusServer
+var configuration = builder.Configuration;
+builder.Services.Configure<ApiServiceOptions>(configuration.GetSection(nameof(ApiServiceOptions)));
+var notificationOptions = configuration.GetSection<ApiServiceOptions>();
+if (notificationOptions.UsePrometheusMetricsServer) 
+{
+    builder.Services.AddHostedService<PrometheusMetricsServer>();
+}
 
 var app = builder.Build();
 
