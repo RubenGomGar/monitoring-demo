@@ -48,6 +48,26 @@ app.MapGet("/weatherforecast", () =>
 })
 .WithName("GetWeatherForecast");
 
+app.MapGet("/increment-metrics", () =>
+{
+    CustomMetrics.CompletedMessages.Inc();
+    CustomMetrics.TotalMessage.Inc();
+    CustomMetrics.FailedMessages.Inc();
+    CustomMetrics.PendingMessages.Inc();
+    return "Metrics Incremented";
+})
+.WithName("IncrementMetrics");
+
+app.MapGet("/decrement-metrics", () =>
+{
+    CustomMetrics.CompletedMessages.Dec();
+    CustomMetrics.TotalMessage.Dec();
+    CustomMetrics.FailedMessages.Dec();
+    CustomMetrics.PendingMessages.Dec();
+    return "Metrics Decremented";
+})
+.WithName("DecrementMetrics");
+
 app.MapDefaultEndpoints();
 
 app.Run();
