@@ -1,0 +1,11 @@
+output:
+  elasticsearch:
+    enabled: true
+    host: "elasticsearch-master.logging.svc.cluster.local"
+    port: 9200
+    logstash_format: true
+    logstash_prefix: "kubernetes-logs"
+
+filter:
+  kubernetes:
+    enabled: true
